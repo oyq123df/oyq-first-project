@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动物趣闻站</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .card {
+            background: rgba(255,255,255,0.9);
+            color: #333;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        button {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: scale(1.05);
+            background: #ff5252;
+        }
+        h1 {
+            margin-top: 0;
+        }
+        .fact {
+            font-size: 24px;
+            line-height: 1.5;
+            min-height: 150px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🐨 动物趣闻站</h1>
+    <div class="card">
+        <div class="fact" id="factDisplay">点击下方按钮，获取动物冷知识！</div>
+        <button onclick="showRandomFact()">🐘 告诉我一个新知识</button>
+    </div>
+
+    <script>
+        const animalFacts = [
+            "🐙 章鱼有三个心脏，两个负责给鳃供血，一个给全身供血。",
+            "💩 袋熊的粪便是立方体形状的，这样它们就不会滚走。",
+            "🦉 猫头鹰无法转动眼球，但可以转头270度。",
+            "🐧 帝企鹅可以潜入水下500米深，闭气20分钟。",
+            "🦒 长颈鹿的舌头有45厘米长，可以用来清理自己的耳朵。",
+            "🐘 大象是唯一不会跳跃的哺乳动物。",
+            "🐬 海豚睡觉时只有一半大脑休息，另一半保持清醒。",
+            "🦷 蜗牛有大约14000颗牙齿，长在舌头上。",
+            "🐊 鳄鱼无法伸出舌头，因为它的舌头固定在口腔底部。",
+            "🦋 蝴蝶用脚来品尝味道。"
+        ];
+
+        function showRandomFact() {
+            const randomIndex = Math.floor(Math.random() * animalFacts.length);
+            document.getElementById('factDisplay').textContent = animalFacts[randomIndex];
+        }
+    </script>
+</body>
+</html>

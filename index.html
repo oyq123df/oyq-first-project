@@ -3,74 +3,778 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>动物趣闻站</title>
+    <title>🐾 动物王国 - 趣味知识库</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 50px auto;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #8b9dc3 100%);
+            min-height: 100vh;
             padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
             text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 12px 28px;
+            font-size: 1rem;
+            border-radius: 40px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .tab-btn:hover {
+            background: rgba(255,255,255,0.4);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: #ff6b6b;
+            box-shadow: 0 5px 20px rgba(255,107,107,0.4);
+        }
+
+        .main-card {
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .fact-area {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 20px;
+            margin-bottom: 25px;
+        }
+
+        .fact-emoji {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        .fact-text {
+            font-size: 1.5rem;
+            line-height: 1.4;
+            color: #333;
+            min-height: 120px;
+        }
+
+        .random-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-        }
-        .card {
-            background: rgba(255,255,255,0.9);
-            color: #333;
-            border-radius: 20px;
-            padding: 40px;
-            margin: 30px 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        button {
-            background: #ff6b6b;
-            color: white;
             border: none;
-            padding: 12px 30px;
-            font-size: 18px;
+            padding: 14px 35px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .random-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(102,126,234,0.4);
+        }
+
+        .animals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .animal-card {
+            background: #f8f9fa;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .animal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            border-color: #ff6b6b;
+        }
+
+        .animal-icon {
+            font-size: 3.5rem;
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .animal-info {
+            padding: 20px;
+        }
+
+        .animal-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .animal-desc {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .quiz-area {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .quiz-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .quiz-progress {
+            font-size: 0.9rem;
+            background: rgba(0,0,0,0.1);
+            padding: 5px 12px;
+            border-radius: 20px;
+        }
+
+        .quiz-question {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #444;
+        }
+
+        .quiz-options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .quiz-option {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 10px 20px;
             border-radius: 30px;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
         }
-        button:hover {
-            transform: scale(1.05);
-            background: #ff5252;
+
+        .quiz-option:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
         }
-        h1 {
-            margin-top: 0;
+
+        .quiz-option.disabled {
+            pointer-events: none;
+            opacity: 0.6;
         }
-        .fact {
-            font-size: 24px;
-            line-height: 1.5;
-            min-height: 150px;
+
+        .quiz-feedback {
+            font-size: 1rem;
+            color: #333;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            color: white;
+            text-align: center;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .reset-score {
+            background: rgba(255,255,255,0.3);
+            border: none;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 5px;
+            font-size: 0.8rem;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            padding: 30px;
+            opacity: 0.8;
+        }
+
+        .category-group {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .category-group h3 {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .category-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .bounce {
+            animation: bounce 0.5s ease;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .fact-text { font-size: 1.1rem; }
+            .stats { flex-direction: column; gap: 15px; }
         }
     </style>
 </head>
 <body>
-    <h1>🐨 动物趣闻站</h1>
-    <div class="card">
-        <div class="fact" id="factDisplay">点击下方按钮，获取动物冷知识！</div>
-        <button onclick="showRandomFact()">🐘 告诉我一个新知识</button>
+    <div class="container">
+        <header>
+            <h1>🐾 动物王国 · 趣味知识库</h1>
+            <p class="subtitle">探索奇妙的动物世界，每天学习一个新知识！</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="facts">📖 趣味趣闻</button>
+            <button class="tab-btn" data-tab="gallery">🖼️ 动物图鉴</button>
+            <button class="tab-btn" data-tab="quiz">❓ 知识挑战</button>
+        </div>
+
+        <!-- 趣闻标签页 -->
+        <div id="facts-tab" class="tab-content">
+            <div class="main-card">
+                <div class="fact-area">
+                    <div class="fact-emoji" id="factEmoji">🐨</div>
+                    <div class="fact-text" id="factDisplay">点击下方按钮，获取动物冷知识！</div>
+                    <button class="random-btn" onclick="showRandomFact()">🎲 随机获取趣闻</button>
+                </div>
+
+                <div class="category-group">
+                    <h3>📂 按分类查看</h3>
+                    <div class="category-buttons" id="categoryButtons"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 动物图鉴标签页 -->
+        <div id="gallery-tab" class="tab-content" style="display: none;">
+            <div class="main-card">
+                <h2 style="text-align: center; margin-bottom: 20px;">🌟 神奇动物图鉴</h2>
+                <p style="text-align: center; color: #666; margin-bottom: 30px;">点击卡片查看详细介绍</p>
+                <div class="animals-grid" id="animalsGrid"></div>
+            </div>
+        </div>
+
+        <!-- 趣味问答标签页 -->
+        <div id="quiz-tab" class="tab-content" style="display: none;">
+            <div class="main-card">
+                <div class="quiz-area">
+                    <div class="quiz-title">
+                        <span>🧠 动物知识挑战赛</span>
+                        <span class="quiz-progress" id="quizProgress">已答: 0 / 总题: 0</span>
+                    </div>
+                    <div class="quiz-question" id="quizQuestion">加载中...</div>
+                    <div class="quiz-options" id="quizOptions"></div>
+                    <div class="quiz-feedback" id="quizFeedback"></div>
+                    <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px;">
+                        <button class="random-btn" onclick="nextQuiz()" style="margin-top: 0;">▶ 下一题</button>
+                        <button class="random-btn" onclick="resetQuizHistory()" style="margin-top: 0; background: linear-gradient(135deg, #ff6b6b, #ee5a24);">🔄 重置题库</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number" id="factCount">0</div>
+                <div class="stat-label">动物趣闻</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="quizTotalCount">0</div>
+                <div class="stat-label">总题目数</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="scoreCount">0</div>
+                <div class="stat-label">累计得分</div>
+                <button class="reset-score" onclick="resetScore()">重置分数</button>
+            </div>
+        </div>
+
+        <footer>
+            <p>🐾 动物王国 · 共35道题目，每次随机抽选不重复 | 重置题库后可重新开始</p>
+            <p>⭐ 每天学习一个新知识，成为动物达人！</p>
+        </footer>
     </div>
 
     <script>
-        const animalFacts = [
-            "🐙 章鱼有三个心脏，两个负责给鳃供血，一个给全身供血。",
-            "💩 袋熊的粪便是立方体形状的，这样它们就不会滚走。",
-            "🦉 猫头鹰无法转动眼球，但可以转头270度。",
-            "🐧 帝企鹅可以潜入水下500米深，闭气20分钟。",
-            "🦒 长颈鹿的舌头有45厘米长，可以用来清理自己的耳朵。",
-            "🐘 大象是唯一不会跳跃的哺乳动物。",
-            "🐬 海豚睡觉时只有一半大脑休息，另一半保持清醒。",
-            "🦷 蜗牛有大约14000颗牙齿，长在舌头上。",
-            "🐊 鳄鱼无法伸出舌头，因为它的舌头固定在口腔底部。",
-            "🦋 蝴蝶用脚来品尝味道。"
+        // ==================== 动物趣闻数据库 ====================
+        const factsDatabase = [
+            { text: "🐙 章鱼有三个心脏，两个负责给鳃供血，一个给全身供血。当章鱼游泳时，负责全身供血的心脏会停止跳动。", emoji: "🐙", category: "marine" },
+            { text: "💩 袋熊的粪便是立方体形状的，这样它们就不会从标记领地的岩石上滚走。", emoji: "💩", category: "mammal" },
+            { text: "🦉 猫头鹰无法转动眼球，但可以转头270度，它们有14节颈椎骨（人类只有7节）。", emoji: "🦉", category: "bird" },
+            { text: "🐧 帝企鹅可以潜入水下500米深，闭气20分钟，它们还能喝海水，通过特殊腺体排出盐分。", emoji: "🐧", category: "bird" },
+            { text: "🦒 长颈鹿的舌头有45厘米长，可以用来清理自己的耳朵，它们每天只睡30分钟到2小时。", emoji: "🦒", category: "mammal" },
+            { text: "🐘 大象是唯一不会跳跃的哺乳动物，但它们的记忆力惊人，能记住几十年前见过的人类。", emoji: "🐘", category: "mammal" },
+            { text: "🐬 海豚睡觉时只有一半大脑休息，另一半保持清醒，它们还能通过回声定位识别物体。", emoji: "🐬", category: "marine" },
+            { text: "🐌 蜗牛有大约14000颗牙齿，长在舌头上，它们还能在锋利刀片上爬行而不受伤。", emoji: "🐌", category: "insect" },
+            { text: "🐊 鳄鱼无法伸出舌头，因为它的舌头固定在口腔底部，它们还能在咸水和淡水中生存。", emoji: "🐊", category: "reptile" },
+            { text: "🦋 蝴蝶用脚来品尝味道，它们的味觉感受器位于脚上，比人类灵敏2000倍。", emoji: "🦋", category: "insect" },
+            { text: "🦛 河马的汗水是红色的，自带防晒功能，它们还能在水下闭气5分钟。", emoji: "🦛", category: "mammal" },
+            { text: "🦑 乌贼有三个心脏，血液是蓝色的，因为它们使用铜基血蓝蛋白运输氧气。", emoji: "🦑", category: "marine" },
+            { text: "🐫 骆驼的驼峰储存的是脂肪不是水，它们一次可以喝下200升水。", emoji: "🐫", category: "mammal" },
+            { text: "🦩 火烈鸟的粉色来自它们吃的虾和藻类，如果食物中没有色素，它们会变成白色。", emoji: "🦩", category: "bird" },
+            { text: "🐸 青蛙可以关闭自己的耳朵，这样在嘈杂环境中也能听到重要声音。", emoji: "🐸", category: "amphibian" },
+            { text: "🦔 刺猬一次可以冬眠长达7个月，期间心跳从每分钟280次降到20次。", emoji: "🦔", category: "mammal" },
+            { text: "🐝 蜜蜂能识别人类面孔，它们的大脑只有芝麻大小，但可以记住100张不同面孔。", emoji: "🐝", category: "insect" },
+            { text: "🦎 壁虎的脚上有数百万根纳米级刚毛，让它们能在光滑玻璃上爬行。", emoji: "🦎", category: "reptile" },
+            { text: "🦜 金刚鹦鹉的寿命可达80岁，比很多人类活得更久。", emoji: "🦜", category: "bird" },
+            { text: "🐅 老虎的皮肤也是条纹状的，每只老虎的条纹都是独一无二的。", emoji: "🐅", category: "mammal" },
+            { text: "🦍 大猩猩可以学会简单的手语，有一只叫Koko的大猩猩掌握了1000多个手语词汇。", emoji: "🦍", category: "mammal" },
+            { text: "🐺 狼的嚎叫可以传播到10公里外，每只狼都有独特的声音。", emoji: "🐺", category: "mammal" },
+            { text: "🦊 狐狸的听力非常灵敏，能听到地下一米深处老鼠的活动。", emoji: "🦊", category: "mammal" },
+            { text: "🐿️ 松鼠会假装埋藏食物来迷惑小偷，它们还会做假藏行为。", emoji: "🐿️", category: "mammal" },
+            { text: "🦦 水獭会手拉手睡觉，防止被水流冲散。", emoji: "🦦", category: "mammal" },
+            { text: "🦨 臭鼬的臭液可以喷射到3米远，在喷射前会用倒立警告敌人。", emoji: "🦨", category: "mammal" },
+            { text: "🦌 驯鹿是唯一雌雄都长角的鹿科动物，它们的眼睛在冬天会变成蓝色。", emoji: "🦌", category: "mammal" },
+            { text: "🐏 大角羊的角重达14公斤，相当于它身体其他骨骼的总和。", emoji: "🐏", category: "mammal" },
+            { text: "🐋 座头鲸的歌声可以传播到数千公里外，每头鲸都有自己的专辑。", emoji: "🐋", category: "marine" },
+            { text: "🦈 鲨鱼的牙齿永远不会掉光，一生可以更换上万颗牙齿。", emoji: "🦈", category: "marine" },
+            { text: "🐠 小丑鱼可以改变性别，群体中雌性死亡后，最大的雄性会变成雌性。", emoji: "🐠", category: "marine" },
+            { text: "🐡 河豚的眼睛可以独立转动，它们也是第二脊椎动物中最毒的。", emoji: "🐡", category: "marine" },
+            { text: "🦀 招潮蟹的大钳子可以长到身体一半大小，而且左右钳子大小不同。", emoji: "🦀", category: "marine" },
+            { text: "🕷️ 蜘蛛的丝比钢丝还坚韧，理论上蜘蛛丝可以做成防弹衣。", emoji: "🕷️", category: "insect" },
+            { text: "🐞 瓢虫会装死，它们腿关节会分泌出难闻的黄色液体吓退捕食者。", emoji: "🐞", category: "insect" },
+            { text: "🦟 蚊子是世界上最致命的动物，每年杀死约72.5万人（通过传播疾病）。", emoji: "🦟", category: "insect" },
+            { text: "🐜 蚂蚁可以举起自己体重50倍的物体，相当于人类举起一辆卡车。", emoji: "🐜", category: "insect" },
+            { text: "🦂 蝎子可以在紫外线下发出蓝绿色荧光，科学家也不知道为什么。", emoji: "🦂", category: "insect" },
+            { text: "🐍 蛇的舌头是分叉的，用来闻空气中的气味颗粒。", emoji: "🐍", category: "reptile" },
+            { text: "🐢 海龟无法把头和四肢缩进壳里，它们的壳其实是由肋骨演化而成。", emoji: "🐢", category: "reptile" },
+            { text: "🐉 科莫多巨蜥的唾液中含有50多种细菌，被咬伤的猎物会在24小时内死亡。", emoji: "🐉", category: "reptile" },
+            { text: "🦅 老鹰的视力是人类的8倍，能看到5公里外的一只兔子。", emoji: "🦅", category: "bird" },
+            { text: "🐦 蜂鸟是唯一能倒飞的鸟类，它们的心跳每分钟可达1200次。", emoji: "🐦", category: "bird" },
+            { text: "🐧 阿德利企鹅会用石头向同伴求婚，最漂亮的石头最受欢迎。", emoji: "🐧", category: "bird" },
+            { text: "🕊️ 鸽子可以记住数百个不同的图像，还能识别镜子中的自己。", emoji: "🕊️", category: "bird" },
+            { text: "🐸 箭毒蛙的毒素可以杀死10个成年人，但它们的蝌蚪没有毒性。", emoji: "🐸", category: "amphibian" },
+            { text: "🦎 蝾螈可以再生四肢、尾巴、甚至部分心脏和大脑。", emoji: "🦎", category: "amphibian" },
+            { text: "🐘 亚洲象会为死去的同伴举行葬礼，用泥土和树枝覆盖尸体。", emoji: "🐘", category: "mammal" },
+            { text: "🐒 卷尾猴会用石头砸开坚果，它们已经使用工具超过3000年。", emoji: "🐒", category: "mammal" },
+            { text: "🦛 河马不会游泳，它们其实是在水底跑步，速度可达8公里/小时。", emoji: "🦛", category: "mammal" }
         ];
 
+        // ==================== 动物图鉴数据 ====================
+        const animalsGallery = [
+            { name: "非洲象", icon: "🐘", desc: "陆地上最大的哺乳动物，智商相当于4-5岁人类儿童。", fact: "象鼻有超过4万块肌肉！" },
+            { name: "猎豹", icon: "🐆", desc: "陆地最快的动物，0-100km/h加速只需3秒。", fact: "它的爪子在奔跑时无法收回。" },
+            { name: "长颈鹿", icon: "🦒", desc: "最高的陆地动物，出生时就有1.8米高。", fact: "和人类一样有7节颈椎。" },
+            { name: "大熊猫", icon: "🐼", desc: "每天花14小时吃竹子，一天吃掉12-38公斤。", fact: "刚出生时只有老鼠大小。" },
+            { name: "蓝鲸", icon: "🐋", desc: "地球上最大的动物，舌头就有大象那么重。", fact: "心跳声可以在3公里外听到。" },
+            { name: "树懒", icon: "🦥", desc: "移动速度每分钟4米，一周才下树一次排便。", fact: "可以在水下闭气40分钟。" },
+            { name: "北极熊", icon: "🐻‍❄️", desc: "皮肤是黑色的，毛其实是透明的。", fact: "可以闻到30公里外的海豹。" },
+            { name: "袋鼠", icon: "🦘", desc: "不会后退，只能向前跳跃。", fact: "育儿袋可以调节温度和湿度。" },
+            { name: "鸵鸟", icon: "🐦", desc: "最大的鸟类，不会飞但跑得飞快。", fact: "眼睛比大脑还大。" },
+            { name: "变色龙", icon: "🦎", desc: "舌头长度是身体的1.5倍。", fact: "变色是为了交流而不是伪装。" },
+            { name: "猫头鹰", icon: "🦉", desc: "夜间捕食专家，飞行时几乎无声。", fact: "可以转头270度！" },
+            { name: "企鹅", icon: "🐧", desc: "不会飞的鸟类，游泳高手。", fact: "帝企鹅能潜500米深。" },
+            { name: "章鱼", icon: "🐙", desc: "海洋中最聪明的无脊椎动物。", fact: "有三个心脏，血液是蓝色的。" },
+            { name: "蝙蝠", icon: "🦇", desc: "唯一能真正飞行的哺乳动物。", fact: "用回声定位来导航。" },
+            { name: "犀牛", icon: "🦏", desc: "角由角蛋白组成，和人类的指甲一样。", fact: "视力很差但听力极佳。" },
+            { name: "河马", icon: "🦛", desc: "每天大部分时间泡在水里。", fact: "不会游泳，在水底跑步。" },
+            { name: "考拉", icon: "🐨", desc: "每天睡18-22小时。", fact: "指纹和人类几乎一样。" },
+            { name: "狐狸", icon: "🦊", desc: "非常聪明和适应力强。", fact: "能听到地下一米的声音。" },
+            { name: "浣熊", icon: "🦝", desc: "前爪非常灵活，会洗食物。", fact: "记忆力可达3年。" },
+            { name: "海豚", icon: "🐬", desc: "高度智能的海洋哺乳动物。", fact: "睡觉时一半大脑醒着。" }
+        ];
+
+        // ==================== 问答题目 ====================
+        const quizDatabase = [
+            { question: "章鱼有几个心脏？", options: ["1个", "2个", "3个", "4个"], correct: 2, explanation: "章鱼有三个心脏，两个负责给鳃供血，一个给全身供血。" },
+            { question: "哪种动物的粪便是立方体形状的？", options: ["考拉", "袋熊", "树袋鼠", "袋狸"], correct: 1, explanation: "袋熊的粪便是立方体形状的，防止从岩石上滚走。" },
+            { question: "猫头鹰能转头多少度？", options: ["180度", "270度", "360度", "90度"], correct: 1, explanation: "猫头鹰可以转头270度，因为它们的颈椎骨更多。" },
+            { question: "蝴蝶用什么器官来品尝味道？", options: ["触角", "口器", "脚", "翅膀"], correct: 2, explanation: "蝴蝶用脚来品尝味道，味觉感受器位于脚上。" },
+            { question: "长颈鹿的舌头有多长？", options: ["25厘米", "35厘米", "45厘米", "55厘米"], correct: 2, explanation: "长颈鹿的舌头有45厘米长，可以用来清理耳朵。" },
+            { question: "哪种动物不会跳跃？", options: ["犀牛", "河马", "大象", "熊猫"], correct: 2, explanation: "大象是唯一不会跳跃的哺乳动物。" },
+            { question: "火烈鸟的粉色来自哪里？", options: ["遗传基因", "吃的食物", "羽毛结构", "皮肤颜色"], correct: 1, explanation: "火烈鸟的粉色来自它们吃的虾和藻类中的色素。" },
+            { question: "蜗牛大约有多少颗牙齿？", options: ["1400颗", "14000颗", "140000颗", "140颗"], correct: 1, explanation: "蜗牛有大约14000颗牙齿，长在舌头上。" },
+            { question: "哪种动物的血液是蓝色的？", options: ["章鱼", "螃蟹", "乌贼", "以上都是"], correct: 3, explanation: "章鱼、乌贼、螃蟹等头足类和甲壳类动物的血液是蓝色的。" },
+            { question: "帝企鹅能潜入水下多深？", options: ["200米", "500米", "1000米", "1500米"], correct: 1, explanation: "帝企鹅可以潜入水下500米深。" },
+            { question: "哪种动物是唯一不会飞的鸟类？", options: ["鸵鸟", "企鹅", "几维鸟", "以上都是"], correct: 3, explanation: "鸵鸟、企鹅、几维鸟等都不会飞。" },
+            { question: "蜜蜂用什么来交流食物位置？", options: ["声音", "舞蹈", "气味", "触角"], correct: 1, explanation: "蜜蜂用8字舞或圆圈舞来告诉同伴食物位置。" },
+            { question: "哪种动物的皮肤是黑色的但毛是透明的？", options: ["北极熊", "雪豹", "北极狐", "白兔"], correct: 0, explanation: "北极熊的皮肤是黑色的，毛发是透明的，看起来是白色。" },
+            { question: "猎豹0-100km/h加速需要几秒？", options: ["2秒", "3秒", "4秒", "5秒"], correct: 1, explanation: "猎豹0-100km/h加速只需3秒，比大多数跑车还快。" },
+            { question: "哪种动物有三个心脏且血液是蓝色的？", options: ["章鱼", "乌贼", "鱿鱼", "以上都是"], correct: 3, explanation: "章鱼、乌贼、鱿鱼都属于头足类，都有三个心脏和蓝色血液。" },
+            { question: "树懒一周下树几次排便？", options: ["每天", "一周1次", "一周3次", "一个月1次"], correct: 1, explanation: "树懒大约一周才下树一次排便，这是它们最危险的时候。" },
+            { question: "哪种动物的指纹和人类几乎一样？", options: ["猴子", "猩猩", "考拉", "熊猫"], correct: 2, explanation: "考拉的指纹和人类非常相似，甚至专家都难以区分。" },
+            { question: "河马的汗液是什么颜色？", options: ["无色", "黄色", "红色", "蓝色"], correct: 2, explanation: "河马的汗液是红色的，具有防晒和抗菌功能。" },
+            { question: "哪种鸟类的眼睛比大脑还大？", options: ["猫头鹰", "鸵鸟", "老鹰", "鸽子"], correct: 1, explanation: "鸵鸟的眼睛比它的大脑还大。" },
+            { question: "壁虎的脚靠什么原理爬墙？", options: ["吸盘", "粘液", "范德华力", "静电"], correct: 2, explanation: "壁虎脚上有数百万根刚毛，利用范德华力吸附在墙上。" },
+            { question: "哪种动物会假装埋藏食物来迷惑小偷？", options: ["松鼠", "老鼠", "狐狸", "浣熊"], correct: 0, explanation: "松鼠会做假动作假装埋藏食物，让其他动物找不到真正的藏匿点。" },
+            { question: "水獭睡觉时会做什么来防止被冲散？", options: ["用石头压住", "手拉手", "缠住水草", "游到岸边"], correct: 1, explanation: "水獭会手拉手睡觉，防止被水流冲散。" },
+            { question: "哪种鲨鱼是最大的鱼类？", options: ["大白鲨", "虎鲨", "鲸鲨", "锤头鲨"], correct: 2, explanation: "鲸鲨是最大的鱼类，体长可达12米以上。" },
+            { question: "小丑鱼可以做什么？", options: ["改变颜色", "改变性别", "发光", "放电"], correct: 1, explanation: "小丑鱼可以改变性别，雌性死亡后最大的雄性会变成雌性。" },
+            { question: "哪种蜘蛛会织出最大的网？", options: ["黑寡妇", "狼蛛", "达尔文树皮蜘蛛", "捕鸟蛛"], correct: 2, explanation: "达尔文树皮蜘蛛能织出直径25米的巨型蜘蛛网。" },
+            { question: "蚂蚁能举起自己体重多少倍的物体？", options: ["10倍", "20倍", "50倍", "100倍"], correct: 2, explanation: "蚂蚁可以举起自己体重50倍的物体。" },
+            { question: "哪种蛇是世界上最长的？", options: ["眼镜王蛇", "森蚺", "网纹蟒", "缅甸蟒"], correct: 2, explanation: "网纹蟒是世界上最长的蛇，可达10米以上。" },
+            { question: "蜂鸟每分钟心跳多少次？", options: ["200次", "500次", "1200次", "2000次"], correct: 2, explanation: "蜂鸟的心跳每分钟可达1200次，是动物中最快的之一。" },
+            { question: "哪种动物会跳8字舞？", options: ["蚂蚁", "蜜蜂", "蝴蝶", "蜻蜓"], correct: 1, explanation: "蜜蜂通过8字舞告诉同伴蜜源的方向和距离。" },
+            { question: "科莫多巨蜥的唾液有什么特点？", options: ["有剧毒", "有大量细菌", "有麻痹作用", "有消化酶"], correct: 1, explanation: "科莫多巨蜥的唾液含有50多种细菌，猎物被咬后24小时内会死亡。" },
+            { question: "哪种动物可以再生四肢和心脏？", options: ["壁虎", "蝾螈", "海星", "螃蟹"], correct: 1, explanation: "蝾螈可以再生四肢、尾巴、甚至部分心脏和大脑。" },
+            { question: "老虎的皮肤是什么样子的？", options: ["纯色", "也是条纹状", "斑点状", "网状"], correct: 1, explanation: "老虎的皮肤也是条纹状的，每只老虎的条纹都独一无二。" },
+            { question: "哪种鲸鱼会唱歌？", options: ["蓝鲸", "座头鲸", "虎鲸", "抹香鲸"], correct: 1, explanation: "座头鲸以其复杂的歌声闻名，可以传播数千公里。" },
+            { question: "哪种鸟能倒着飞？", options: ["老鹰", "蜂鸟", "燕子", "麻雀"], correct: 1, explanation: "蜂鸟是唯一能倒着飞的鸟类。" },
+            { question: "哪种动物的牙齿永远不会掉光？", options: ["大象", "鲨鱼", "河马", "鳄鱼"], correct: 1, explanation: "鲨鱼一生可以更换上万颗牙齿。" }
+        ];
+
+        let currentCategory = "all";
+        let currentScore = 0;
+        let currentQuiz = null;
+        let quizHistory = [];
+
+        // 显示随机趣闻
         function showRandomFact() {
-            const randomIndex = Math.floor(Math.random() * animalFacts.length);
-            document.getElementById('factDisplay').textContent = animalFacts[randomIndex];
+            let filteredFacts = factsDatabase;
+            if (currentCategory !== "all") {
+                filteredFacts = factsDatabase.filter(f => f.category === currentCategory);
+            }
+            
+            if (filteredFacts.length === 0) {
+                document.getElementById('factDisplay').textContent = "该分类暂无趣闻，试试其他分类吧！";
+                return;
+            }
+            
+            const randomIndex = Math.floor(Math.random() * filteredFacts.length);
+            const fact = filteredFacts[randomIndex];
+            
+            const factDisplay = document.getElementById('factDisplay');
+            const factEmoji = document.getElementById('factEmoji');
+            
+            factDisplay.style.opacity = '0';
+            setTimeout(() => {
+                factDisplay.textContent = fact.text;
+                factEmoji.textContent = fact.emoji;
+                factDisplay.style.opacity = '1';
+                factDisplay.classList.add('bounce');
+                setTimeout(() => factDisplay.classList.remove('bounce'), 500);
+            }, 150);
         }
+
+        // 获取不重复的题目
+        function getUniqueQuestion() {
+            if (quizHistory.length >= quizDatabase.length) {
+                quizHistory = [];
+            }
+            
+            let availableIndices = [];
+            for (let i = 0; i < quizDatabase.length; i++) {
+                if (!quizHistory.includes(i)) {
+                    availableIndices.push(i);
+                }
+            }
+            
+            if (availableIndices.length === 0) {
+                quizHistory = [];
+                availableIndices = quizDatabase.map((_, i) => i);
+            }
+            
+            const randomIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+            quizHistory.push(randomIndex);
+            return quizDatabase[randomIndex];
+        }
+
+        // 加载新题目
+        function loadQuiz() {
+            currentQuiz = getUniqueQuestion();
+            
+            document.getElementById('quizQuestion').textContent = currentQuiz.question;
+            const optionsDiv = document.getElementById('quizOptions');
+            optionsDiv.innerHTML = '';
+            document.getElementById('quizFeedback').innerHTML = '';
+            
+            currentQuiz.options.forEach((option, idx) => {
+                const optBtn = document.createElement('div');
+                optBtn.className = 'quiz-option';
+                optBtn.textContent = option;
+                optBtn.onclick = () => checkAnswer(idx);
+                optionsDiv.appendChild(optBtn);
+            });
+            
+            updateQuizProgress();
+        }
+
+        // 下一题
+        function nextQuiz() {
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.classList.remove('disabled');
+                opt.style.pointerEvents = 'auto';
+            });
+            loadQuiz();
+        }
+
+        // 检查答案
+        function checkAnswer(selected) {
+            if (!currentQuiz) return;
+            
+            const feedback = document.getElementById('quizFeedback');
+            const options = document.querySelectorAll('.quiz-option');
+            
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+                opt.classList.add('disabled');
+            });
+            
+            if (selected === currentQuiz.correct) {
+                currentScore++;
+                document.getElementById('scoreCount').textContent = currentScore;
+                feedback.innerHTML = `✅ 正确！ ${currentQuiz.explanation}`;
+                feedback.style.background = '#d4edda';
+                feedback.style.color = '#155724';
+            } else {
+                feedback.innerHTML = `❌ 错误！ 正确答案是：${currentQuiz.options[currentQuiz.correct]}。 ${currentQuiz.explanation}`;
+                feedback.style.background = '#f8d7da';
+                feedback.style.color = '#721c24';
+            }
+            
+            updateQuizProgress();
+        }
+
+        // 更新进度显示
+        function updateQuizProgress() {
+            const progressSpan = document.getElementById('quizProgress');
+            if (progressSpan) {
+                const answered = quizHistory.length;
+                const total = quizDatabase.length;
+                progressSpan.textContent = `本轮已出: ${answered} / 总题: ${total}`;
+                if (answered === total) {
+                    progressSpan.style.background = '#ff6b6b';
+                    progressSpan.style.color = 'white';
+                } else {
+                    progressSpan.style.background = 'rgba(0,0,0,0.1)';
+                    progressSpan.style.color = '#333';
+                }
+            }
+        }
+
+        // 重置题库历史
+        function resetQuizHistory() {
+            quizHistory = [];
+            loadQuiz();
+            const feedback = document.getElementById('quizFeedback');
+            feedback.innerHTML = '🔄 题库已重置，所有题目都可以重新挑战了！';
+            feedback.style.background = '#d4edda';
+            feedback.style.color = '#155724';
+            setTimeout(() => {
+                if (feedback.innerHTML === '🔄 题库已重置，所有题目都可以重新挑战了！') {
+                    feedback.innerHTML = '';
+                }
+            }, 2000);
+            updateQuizProgress();
+        }
+
+        // 重置分数
+        function resetScore() {
+            currentScore = 0;
+            document.getElementById('scoreCount').textContent = currentScore;
+            const feedback = document.getElementById('quizFeedback');
+            if (feedback) {
+                feedback.innerHTML = '⭐ 分数已重置，继续挑战吧！';
+                feedback.style.background = '#d4edda';
+                feedback.style.color = '#155724';
+                setTimeout(() => {
+                    if (feedback.innerHTML === '⭐ 分数已重置，继续挑战吧！') {
+                        feedback.innerHTML = '';
+                    }
+                }, 1500);
+            }
+        }
+
+        // 加载动物图鉴
+        function loadGallery() {
+            const grid = document.getElementById('animalsGrid');
+            grid.innerHTML = '';
+            
+            animalsGallery.forEach(animal => {
+                const card = document.createElement('div');
+                card.className = 'animal-card';
+                card.onclick = () => alert(`🌟 ${animal.name}\n\n${animal.desc}\n\n✨ 趣闻：${animal.fact}`);
+                card.innerHTML = `
+                    <div class="animal-icon">${animal.icon}</div>
+                    <div class="animal-info">
+                        <div class="animal-name">${animal.name}</div>
+                        <div class="animal-desc">${animal.desc}</div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // 设置分类筛选按钮
+        function setupCategoryFilters() {
+            const categories = [
+                { id: "all", name: "全部", icon: "🌍" },
+                { id: "mammal", name: "哺乳动物", icon: "🐘" },
+                { id: "bird", name: "鸟类", icon: "🦜" },
+                { id: "reptile", name: "爬行动物", icon: "🐊" },
+                { id: "marine", name: "海洋生物", icon: "🐠" },
+                { id: "insect", name: "昆虫", icon: "🦋" },
+                { id: "amphibian", name: "两栖动物", icon: "🐸" }
+            ];
+            
+            const container = document.getElementById('categoryButtons');
+            container.innerHTML = '';
+            
+            categories.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = 'category-btn';
+                btn.innerHTML = `${cat.icon} ${cat.name}`;
+                btn.dataset.category = cat.id;
+                btn.style.background = cat.id === 'all' ? '#667eea' : '#ddd';
+                btn.style.color = cat.id === 'all' ? 'white' : '#333';
+                btn.onclick = () => {
+                    document.querySelectorAll('.category-btn').forEach(b => {
+                        b.style.background = '#ddd';
+                        b.style.color = '#333';
+                    });
+                    btn.style.background = '#667eea';
+                    btn.style.color = 'white';
+                    currentCategory = cat.id;
+                    showRandomFact();
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        // 标签页切换
+        function switchTab(tabId) {
+            document.getElementById('facts-tab').style.display = tabId === 'facts' ? 'block' : 'none';
+            document.getElementById('gallery-tab').style.display = tabId === 'gallery' ? 'block' : 'none';
+            document.getElementById('quiz-tab').style.display = tabId === 'quiz' ? 'block' : 'none';
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.tab === tabId) btn.classList.add('active');
+            });
+            
+            if (tabId === 'gallery') loadGallery();
+            if (tabId === 'quiz') {
+                if (!currentQuiz) loadQuiz();
+            }
+        }
+
+        // 初始化统计
+        function initStats() {
+            document.getElementById('factCount').textContent = factsDatabase.length;
+            document.getElementById('quizTotalCount').textContent = quizDatabase.length;
+            document.getElementById('scoreCount').textContent = currentScore;
+        }
+
+        // 事件绑定
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+        });
+
+        // 页面加载初始化
+        initStats();
+        setupCategoryFilters();
+        showRandomFact();
+        loadQuiz();
     </script>
 </body>
 </html>
